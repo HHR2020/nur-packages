@@ -13,8 +13,10 @@
   lib = import ./lib { inherit pkgs; }; # functions
   modules = import ./modules; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
+  hmModules = import ./home-manager; # Home Manager modules
 
   example-package = pkgs.callPackage ./pkgs/example-package { };
+  zju-connect = pkgs.callPackage ./pkgs/zju-connect { };
   # some-qt5-package = pkgs.libsForQt5.callPackage ./pkgs/some-qt5-package { };
   # ...
 }
