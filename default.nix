@@ -17,6 +17,7 @@
 
   example-package = pkgs.callPackage ./pkgs/example-package { };
   zju-connect = pkgs.callPackage ./pkgs/zju-connect { };
+  zju-learning-assistant = pkgs.callPackage ./pkgs/zju-learning-assistant { };
   # some-qt5-package = pkgs.libsForQt5.callPackage ./pkgs/some-qt5-package { };
   # ...
 }
