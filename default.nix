@@ -18,6 +18,7 @@
   hmModules = import ./home-manager; # Home Manager modules
 
   example-package = pkgs.callPackage ./pkgs/example-package { };
+  q5go = pkgs.libsForQt5.callPackage ./pkgs/q5go { };
   zju-connect = pkgs.callPackage ./pkgs/zju-connect { };
   zju-learning-assistant = pkgs.callPackage ./pkgs/zju-learning-assistant { };
   # some-qt5-package = pkgs.libsForQt5.callPackage ./pkgs/some-qt5-package { };
