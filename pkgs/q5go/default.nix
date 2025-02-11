@@ -40,7 +40,7 @@ stdenv.mkDerivation (finalAttrs: {
   meta = {
     description = "A tool for Go players";
     homepage = "https://github.com/bernds/q5Go";
+    mainProgram = "q5go";
     license = lib.licenses.gpl2Plus;
-    platforms = lib.platforms.linux;
   };
 })

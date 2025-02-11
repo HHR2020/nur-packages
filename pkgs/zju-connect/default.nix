@@ -22,6 +22,5 @@ buildGoModule rec {
     homepage = "https://github.com/Mythologyli/ZJU-Connect";
     mainProgram = "zju-connect";
     license = lib.licenses.agpl3Only;
-    maintainers = with lib.maintainers; [ ];
   };
 }

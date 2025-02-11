@@ -75,13 +75,7 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/PeiPei233/zju-learning-assistant";
     changelog = "https://github.com/PeiPei233/zju-learning-assistant/releases/tag/v${version}";
     description = "帮你快速下载所有课件😋";
-    maintainers = with lib.maintainers; [ ];
     mainProgram = "zju-learning-assistant";
-    platforms = [
-      "x86_64-linux"
-      "aarch64-darwin"
-      "x86_64-darwin"
-    ];
     license = lib.licenses.mit;
   };
 }
