@@ -28,7 +28,8 @@ rustPlatform.buildRustPackage rec {
     hash = "sha256-rLZg8iW/slNfO8Sm08qUcBWp7hZWw3EKZbl0ZHlS2EY=";
   };
 
-  cargoHash = "sha256-h6jBg17fQXEN3JSkM0c4Ioxt+R9gv7mpAH0lPkPtC6I=";
+  useFetchCargoVendor = true;
+  cargoHash = "sha256-rRcKlCsQ0pmsjui4IZQea6ukTOM3zWl1ptKHfJ2g8n4=";
 
   npmDeps = fetchNpmDeps {
     name = "${pname}-npm-deps-${version}";
@@ -60,17 +61,10 @@ rustPlatform.buildRustPackage rec {
   cargoRoot = "src-tauri";
   buildAndTestSubdir = cargoRoot;
 
-  postPatch = lib.optionalString stdenv.hostPlatform.isLinux ''
-    # libappindicator-rs need to know where Nix's appindicator lib is.
-    pushd $cargoDepsCopy/libappindicator-sys
-    oldHash=$(sha256sum src/lib.rs | cut -d " " -f 1)
-    substituteInPlace src/lib.rs \
+  # from https://github.com/NixOS/nixpkgs/blob/04e40bca2a68d7ca85f1c47f00598abb062a8b12/pkgs/by-name/ca/cargo-tauri/test-app.nix#L23-L26
+  postPatch = ''
+    substituteInPlace $cargoDepsCopy/libappindicator-sys-*/src/lib.rs \
       --replace-fail "libayatana-appindicator3.so.1" "${libayatana-appindicator}/lib/libayatana-appindicator3.so.1"
-    # Cargo doesn't like it when vendored dependencies are edited.
-    substituteInPlace .cargo-checksum.json \
-      --replace-warn $oldHash $(sha256sum src/lib.rs | cut -d " " -f 1)
-    popd
-
     jq \
     '.bundle.createUpdaterArtifacts = false' \
     src-tauri/tauri.conf.json \
