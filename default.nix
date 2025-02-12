@@ -13,9 +13,9 @@
 {
   # The `lib`, `modules`, and `overlay` names are special
   lib = import ./lib { inherit pkgs; }; # functions
-  modules = import ./modules; # NixOS modules
+  modules = import ./nixosModules; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
-  hmModules = import ./home-manager; # Home Manager modules
+  hmModules = import ./homeModules; # Home Manager modules
 
   example-package = pkgs.callPackage ./pkgs/example-package { };
   q5go = pkgs.libsForQt5.callPackage ./pkgs/q5go { };

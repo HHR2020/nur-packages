@@ -36,6 +36,9 @@
       packages = forAllSystems (
         system: nixpkgs.lib.filterAttrs (_: v: nixpkgs.lib.isDerivation v) self.legacyPackages.${system}
       );
+      homeModules = import ./homeModules;
+      nixosModules = import ./nixosModules;
+      overlays = import ./overlays;
       formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
       checks = eachSystem (pkgs: {
         formatting = treefmtEval.${pkgs.system}.config.build.check self;
