@@ -1,7 +1,12 @@
 {
   description = "My personal NUR repository";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-  inputs.treefmt-nix.url = "github:numtide/treefmt-nix";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
   outputs =
     {
       self,
@@ -36,4 +41,17 @@
         formatting = treefmtEval.${pkgs.system}.config.build.check self;
       });
     };
+
+  nixConfig = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    extra-substituters = [
+      "https://hhr2020-nur.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "hhr2020-nur.cachix.org-1:FrRNYwg6AwCNZIluoXVUqeHigj4xdYznhpboxQjGpHs="
+    ];
+  };
 }
