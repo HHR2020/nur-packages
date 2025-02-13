@@ -1,6 +1,9 @@
 {
+  copyDesktopItems,
   fetchFromGitHub,
   lib,
+  makeDesktopItem,
+  pandoc,
   pkg-config,
   qtbase,
   qtmultimedia,
@@ -20,12 +23,6 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-MQ/FqAsBnQVaP9VDbFfEbg5ymteb/NSX4nS8YG49HXU=";
   };
 
-  # remove qtchooser requirement
-  postPatch = ''
-    sed -i '/# Extract the first word of "qtchooser"/,/CXXFLAGS="$CXXFLAGS $QT5_CFLAGS -fPIC"/ {/CXXFLAGS="$CXXFLAGS $QT5_CFLAGS -fPIC"/!d}' configure
-    sed -i '/qtchooser/I d' configure
-  '';
-
   buildInputs = [
     qtbase
     qtsvg
@@ -33,9 +30,38 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   nativeBuildInputs = [
+    copyDesktopItems
     wrapQtAppsHook
+    pandoc
     pkg-config
   ];
+
+  configurePhase = ''
+    mkdir build && cd build
+    qmake ../src/q5go.pro PREFIX=$out
+  '';
+
+  desktopItems = [
+    (makeDesktopItem {
+      name = "q5go";
+      desktopName = "q5Go";
+      genericName = "Go";
+      exec = "q5go";
+      mimeTypes = [
+        "text/plain"
+        "text/sfg"
+      ];
+      categories = [
+        "Qt"
+        "KDE"
+        "Game"
+        "BoardGame"
+      ];
+      comment = finalAttrs.meta.description;
+    })
+  ];
+
+  enableParallelBuilding = true;
 
   meta = {
     description = "A tool for Go players";
