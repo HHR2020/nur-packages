@@ -1,6 +1,7 @@
 {
   copyDesktopItems,
   fetchFromGitHub,
+  imagemagick,
   lib,
   makeDesktopItem,
   pandoc,
@@ -31,6 +32,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = [
     copyDesktopItems
+    imagemagick
     wrapQtAppsHook
     pandoc
     pkg-config
@@ -47,6 +49,7 @@ stdenv.mkDerivation (finalAttrs: {
       desktopName = "q5Go";
       genericName = "Go";
       exec = "q5go";
+      icon = "q5go";
       mimeTypes = [
         "text/plain"
         "text/sfg"
@@ -60,6 +63,11 @@ stdenv.mkDerivation (finalAttrs: {
       comment = finalAttrs.meta.description;
     })
   ];
+
+  postInstall = ''
+    magick ../src/images/Bowl.ico ../src/images/Bowl.png
+    install -D ../src/images/Bowl.png $out/share/icons/hicolor/32x32/apps/q5go.png
+  '';
 
   enableParallelBuilding = true;
 
