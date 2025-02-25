@@ -20,21 +20,21 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "zju-learning-assistant";
-  version = "0.3.8";
+  version = "0.3.9";
   src = fetchFromGitHub {
     owner = "PeiPei233";
     repo = "zju-learning-assistant";
     rev = "v${version}";
-    hash = "sha256-rLZg8iW/slNfO8Sm08qUcBWp7hZWw3EKZbl0ZHlS2EY=";
+    hash = "sha256-O6ai3+9hkaqrPwH6SZHXRKVDXn7QO+VY3rb/yKJSvI8=";
   };
 
   useFetchCargoVendor = true;
-  cargoHash = "sha256-rRcKlCsQ0pmsjui4IZQea6ukTOM3zWl1ptKHfJ2g8n4=";
+  cargoHash = "sha256-GRV7Ji+ox0YJvfPX4PcbJGz0VwxxE9L2iK/VaHU/SAo=";
 
   npmDeps = fetchNpmDeps {
     name = "${pname}-npm-deps-${version}";
     inherit src;
-    hash = "sha256-iwOrpoBHBnvy8F1lFR7o/goGEjZwK/BvlhHHJHVv2LY=";
+    hash = "sha256-NHrc1Ci9BSemHsY3Fa6Fu5v4SbRK4Zd/GQTrPmKEFs0=";
   };
 
   nativeBuildInputs = [
