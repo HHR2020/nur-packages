@@ -13,25 +13,27 @@
   webkitgtk_4_1,
   wrapGAppsHook4,
   fetchFromGitHub,
+  jq,
+  moreutils,
 }:
 
 rustPlatform.buildRustPackage rec {
   pname = "fiz";
-  version = "0.1.7";
+  version = "0.2.2";
   src = fetchFromGitHub {
     owner = "CrazySpottedDove";
     repo = "fiz";
     rev = "app-v${version}";
-    hash = "sha256-p9h/kdwdYS8mp6y2Sca+gvUhPfrQt5LrHPw6Zfh9y04=";
+    hash = "sha256-nTYFzoPbdEXDx2D+4M42tK95F2Bp/yYATrZMeKQG0gc=";
   };
 
   useFetchCargoVendor = true;
-  cargoHash = "sha256-avjnx0hyfi+0mKu1WHttNPZqaNRGGsWB2MNTHs+8kE0=";
+  cargoHash = "sha256-1ERKMENPMTn5CPK4d5uTZ18ONMrCEY2PIK1GqSGHnSg=";
 
   npmDeps = fetchNpmDeps {
     name = "${pname}-npm-deps-${version}";
     inherit src;
-    hash = "sha256-igSU8/JWNofOlhQ/5L76mSS6gP7IA6gQndC+lOKGE6U=";
+    hash = "sha256-jSgBrMPDmC98bcG44s0npA0Gu0mG8/qbJ3X3wNIHSY8=";
   };
 
   nativeBuildInputs = [
@@ -42,6 +44,9 @@ rustPlatform.buildRustPackage rec {
     pkg-config
     wrapGAppsHook4
     copyDesktopItems
+
+    jq
+    moreutils
   ];
 
   buildInputs =
@@ -53,6 +58,13 @@ rustPlatform.buildRustPackage rec {
 
   cargoRoot = "src-tauri";
   buildAndTestSubdir = cargoRoot;
+
+  postPatch = ''
+    jq \
+    '.bundle.createUpdaterArtifacts = false' \
+    src-tauri/tauri.conf.json \
+    | sponge src-tauri/tauri.conf.json
+  '';
 
   meta = {
     homepage = "https://github.com/CrazySpottedDove/fiz";
